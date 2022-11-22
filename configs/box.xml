@@ -1,0 +1,125 @@
+<Configuration Id="Complex Scene">
+	<Points>
+		<Point ID="LightPosition" X="-278.0" Y="530.7" Z="-279.6" />
+		<Point ID="CameraEyePoint" X="-278.0" Y="273.0" Z="700.0" />
+		<Point ID="CameraLookAt" X="-278.0" Y="273.0" Z="0.0" />
+	</Points>
+
+	<Vectors>
+		<Vector ID="CameraUp" X="0.0" Y="1.0" Z="0.0" />
+	</Vectors>
+
+	<Colors>
+		<Color ID="Background" R="0.0" G="0.0" B="0.0" />
+		<Color ID="LightAmbient" R="0.5" G="0.5" B="0.5" />
+		<Color ID="LightDiffuse" R="5.0" G="5.0" B="5.0" />
+		<Color ID="LightSpecular" R="5.0" G="5.0" B="5.0" />
+	</Colors>
+
+	<Matrices>
+		<Matrix ID="RubyTranslate" Type="Translate">
+			<X>-60.0</X>
+			<Y>0.0</Y>
+			<Z>-60.0</Z>
+		</Matrix>
+		<Matrix ID="RubyScale" Type="Scale">
+			<X>60.0</X>
+			<Y>60.0</Y>
+			<Z>60.0</Z>
+		</Matrix>
+		<Matrix ID="GourdTranslate" Type="Translate">
+			<X>-340.0</X>
+			<Y>305.0</Y>
+			<Z>-330.0</Z>
+		</Matrix>
+		<Matrix ID="GourdScale" Type="Scale">
+			<X>50.0</X>
+			<Y>50.0</Y>
+			<Z>50.0</Z>
+		</Matrix>
+		<Matrix ID="BunnyTranslate" Type="Translate">
+			<X>-180.0</X>
+			<Y>160.0</Y>
+			<Z>-120.0</Z>
+		</Matrix>
+		<Matrix ID="BunnyScale" Type="Scale">
+			<X>300.0</X>
+			<Y>300.0</Y>
+		</Matrix>
+	</Matrices>
+	
+	<Camera EyePoint="CameraEyePoint" LookAt="CameraLookAt" Up="CameraUp" FrameWidth="100.0" FrameHeight="100.0" FocalDistance="100.0" >
+		<AntiAliasing Method="Supersampling" Size="1" />
+	</Camera>
+	
+	<World Color="Background">
+		<Lights>
+			<Light Type="PointLight" Position="LightPosition" Ambient="LightAmbient" Diffuse="LightDiffuse" Specular="LightSpecular" />
+		</Lights>
+		
+		<IlluminationModels>
+			<IlluminationModel ID="PhongBlinn1" Type="PhongBlinn">
+				<Ka>0.1</Ka>
+				<Kd>0.2</Kd>
+				<Ks>0.7</Ks>
+			</IlluminationModel>
+		</IlluminationModels>
+		
+		<Models>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/box.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs1.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs2.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs3.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs4.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs5.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs6.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/cs10.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/ss7.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/ss8.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/ss9.obj</Path>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/ruby.obj</Path>
+				<ApplyMatrices>
+					<ApplyMatrix ID="RubyScale" />
+					<ApplyMatrix ID="RubyTranslate" />
+				</ApplyMatrices>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/gourd.obj</Path>
+				<ApplyMatrices>
+					<ApplyMatrix ID="GourdScale" />
+					<ApplyMatrix ID="GourdTranslate" />
+				</ApplyMatrices>
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/box/bunny.obj</Path>
+				<ApplyMatrices>
+					<ApplyMatrix ID="BunnyScale" />
+					<ApplyMatrix ID="BunnyTranslate" />
+				</ApplyMatrices>
+			</Model>
+		</Models>
+	</World>
+</Configuration>
