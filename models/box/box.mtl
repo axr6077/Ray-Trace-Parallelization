@@ -1,0 +1,31 @@
+newmtl floor
+Ka 0.072 0.073 0.072
+Kd 0.729 0.733 0.729
+
+newmtl ceiling
+Ka 0.072 0.073 0.072
+Kd 0.729 0.733 0.729
+
+newmtl light
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+
+newmtl back
+Ka 0.072 0.073 0.072
+Kd 0.729 0.733 0.729
+
+newmtl right
+Ka 0.011 0.043 0.011
+Kd 0.117 0.435 0.115
+
+newmtl left
+Ka 0.061 0.005 0.006
+Kd 0.610 0.056 0.062
+
+newmtl short
+Ka 0.072 0.073 0.072
+Kd 0.729 0.733 0.729
+
+newmtl tall
+Ka 0.072 0.073 0.072
+Kd 0.729 0.733 0.729

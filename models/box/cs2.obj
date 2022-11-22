@@ -1,0 +1,5 @@
+mtllib clear.mtl
+usemtl clear
+type sphere
+sP -410.0 30.0 -80.0
+sR 30.0

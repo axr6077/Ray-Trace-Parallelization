@@ -1,0 +1,10 @@
+# Blender3D MTL File: 
+# Material Count: 0
+newmtl ruby
+Ka 0.05 0.05 0.05
+Kd 0.5 0.05 0.05
+Ks 1.0 0.8 0.8
+Tf 0.55 0.05 0.05
+Kr 0.35 0.05 0.05
+Ns 56.25
+Ni 1.77

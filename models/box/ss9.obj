@@ -1,0 +1,5 @@
+mtllib metal_sphere.mtl
+usemtl metal_sphere
+type sphere
+sP -410.0 75.0 -157.9423
+sR 30.0

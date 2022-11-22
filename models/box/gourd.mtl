@@ -1,0 +1,8 @@
+# Blender3D MTL File: 
+# Material Count: 1
+newmtl gourd
+Ka 0.2 0.2 0.2
+Kd 0.75 0.45 0.35
+Ks 0.9 0.5 0.4
+
+Ns 10.0
