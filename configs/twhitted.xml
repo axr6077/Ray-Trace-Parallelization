@@ -1,0 +1,63 @@
+<Configuration Id="Simple Scene">
+	<Points>
+		<Point ID="LightPosition" X="4.0" Y="10.0" Z="50.0" />
+		<Point ID="CameraEyePoint" X="4.0" Y="3.0" Z="4.8" />
+		<Point ID="CameraLookAt" X="4.0" Y="2.8" Z="-1.0" />
+	</Points>
+
+	<Vectors>
+		<Vector ID="CameraUp" X="0.0" Y="1.0" Z="0.0" />
+	</Vectors>
+
+	<Colors>
+		<Color ID="Background" R="0.031" G="0.647" B="0.808" />
+		<Color ID="LightAmbient" R="0.2" G="0.2" B="0.2" />
+		<Color ID="LightDiffuse" R="0.8" G="0.8" B="0.8" />
+		<Color ID="LightSpecular" R="1.0" G="1.0" B="1.0" />
+		<Color ID="CheckerBoard1" R="1.0" G="0.0" B="0.0" />
+		<Color ID="CheckerBoard2" R="1.0" G="1.0" B="0.0" />
+	</Colors>
+
+	<Matrices />
+	
+	<Camera EyePoint="CameraEyePoint" LookAt="CameraLookAt" Up="CameraUp" FrameWidth="4.0" FrameHeight="4.0" FocalDistance="4.2">
+		<AntiAliasing Method="Supersampling" Size="1" />
+	</Camera>
+	
+	<World Color="Background">
+		<Lights>
+			<Light Type="PointLight" Position="LightPosition" Ambient="LightAmbient" Diffuse="LightDiffuse" Specular="LightSpecular" />
+		</Lights>
+		
+		<IlluminationModels>
+			<IlluminationModel ID="PhongBlinn1" Type="PhongBlinn">
+				<Ka>0.1</Ka>
+				<Kd>0.2</Kd>
+				<Ks>0.7</Ks>
+			</IlluminationModel>
+			<IlluminationModel ID="Checkerboard1" Type="CheckerBoardXZ">
+				<Color1>CheckerBoard1</Color1>
+				<Color2>CheckerBoard2</Color2>
+				<CheckSize>1.0</CheckSize>
+			</IlluminationModel>
+		</IlluminationModels>
+		
+		<Models>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/twhitted/ssphere.obj</Path>
+				<ApplyMatrices />
+				<Properties />
+			</Model>
+			<Model Type="File" IlluminationModel="PhongBlinn1">
+				<Path>./models/twhitted/csphere.obj</Path>
+				<ApplyMatrices />
+				<Properties />
+			</Model>
+			<Model Type="File" IlluminationModel="Checkerboard1">
+				<Path>./models/twhitted/plane.obj</Path>
+				<ApplyMatrices />
+				<Properties />
+			</Model>
+		</Models>
+	</World>
+</Configuration>
