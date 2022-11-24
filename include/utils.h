@@ -7,6 +7,23 @@ typedef enum {
 	MPI_TAG_DYNAMIC
 } MPIMessageTag;
 
+typedef struct StaticBlock{
+	int sqrtProcessors; // sqrt of the number of processors 
+	int colsMax;
+	int rowsMax;
+	int blockID;
+	int rowsN, rowsE, rowsR, rowsRS;
+	int colsN, colsE, colsR, colsRS;
+	int blockRow, blockCol;
+	int rowStart, rowEnd, rowsToCalc;
+	int colStart, colEnd, colsToCalc;
+	StaticBlock(const ConfigData* data);
+	void updateStaticBlockData(int blockID);
+	int getNumOfPixels();
+	int getSize();
+	int getIndex(int row, int col);
+} StaticBlock;
+
 typedef struct DynamicBlock {
 	int blockHeight, blockWidth, blockRowStart, blockColStart, \
 		blockRowEnd, blockColEnd, blockRowNum, blockColNum, 
