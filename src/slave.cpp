@@ -95,3 +95,23 @@ void slaveDynamicPartition(ConfigData* data) {
 	}	
 }
 
+void slaveStaticBlocks(ConfigData* data) {
+	double computationStart, computationStop, computationTime;
+	computationStart = MPI_Wtime();
+	StaticBlock staticBlock = StaticBlock(data);
+	if (staticBlock.sqrtProcessors == 0) {return;}
+	int size = staticBlock.getSize();
+	float *pixels = new float[size];
+	for (int row = 0; row < staticBlock.rowsToCalc; ++row) {
+		for (int col = 0; col < staticBlock.colsToCalc; ++col) {
+			int baseIdx = staticBlock.getIndex(row, col);
+			shadePixel(&(pixels[baseIdx]), staticBlock.rowStart + row, staticBlock.colStart + col, data);
+		}
+	}
+	computationStop = MPI_Wtime();
+	computationTime = computationStart - computationStop;
+	pixels[size - 1] = computationTime;
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Send(pixels, size, MPI_FLOAT, 0, 8, MPI_COMM_WORLD);
+	delete[] pixels;
+}
