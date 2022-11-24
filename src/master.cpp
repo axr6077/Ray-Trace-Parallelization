@@ -131,6 +131,9 @@ void masterSequential(ConfigData* data, float* pixels)
 int getIndex(const ConfigData* data, int row, int col) {
 	return 3 * (row * data -> width + col);
 }
+int pGetIndex(const ConfigData* data, int row, int col) {
+	return 3 * (col * data -> height + row);
+}
 
 void staticCyclesHorizontal(ConfigData* data, float* pixels) {
 	MPI_Status status;
@@ -187,7 +190,85 @@ void staticCyclesHorizontal(ConfigData* data, float* pixels) {
 }
 
 void masterStaticStripsVertical(ConfigData* data, float* pixels) {
-	//TODO
+	MPI_Status status;
+	double computationStart, computationStop, computationTime;
+	int rowsMax = data -> height;
+	int colsMax = data -> width;
+	int colsPerProcessN = colsMax / data -> mpi_procs;
+	int colsPerProcessE = colsPerProcessN + 1;
+	int colsR = colsMax % data -> mpi_procs;
+	int colsToCalc;
+	int colStart;
+	if (data -> mpi_rank < colsR) {
+		colsToCalc = colsPerProcessE;
+		colStart = (colsPerProcessE * data -> mpi_rank);
+	}
+	else {
+		colsToCalc = colsPerProcessN;
+		colStart = (colsPerProcessE * colsR) + ((data -> mpi_rank - colsR) * colsPerProcessN);
+	}
+	int colEnd = colStart + colsToCalc;
+	computationStart = MPI_Wtime();
+	float *pixels2 = new float[(3 * data -> width * data -> height)];
+	for (int row = 0; row < rowsMax; ++row) {
+		for (int col = colStart; col < colEnd; ++col) {
+			int pBaseIdx = pGetIndex(data, row, col);
+			shadePixel(&(pixels2[pBaseIdx]), row, col, data);
+		}
+	}
+	computationStop = MPI_Wtime();
+	computationTime = computationStop - computationStart;
+	MPI_Barrier(MPI_COMM_WORLD);
+
+	int slave = 1;
+	int baseIdx = pGetIndex(data, 0, colsToCalc);
+	int savePix = pGetIndex(data, 0, colsPerProcessE);
+	int size = savePix + 1;
+	float *packet = new float[savePix + 1];
+	double communicationStart1, communicationStop1, communicationTime1;
+	double communicationStart2, communicationStop2, communicationTime2;
+	communicationStart1 = MPI_Wtime();
+	for (slave = 1; slave < colsR; slave++) {
+		MPI_Recv(packet, size, MPI_FLOAT, slave, 8, MPI_COMM_WORLD, &status);
+		if (packet[0] > computationTime) {
+			computationTime = packet[0];
+		}
+		memcpy(&(pixels2[baseIdx]), &packet[1], savePix * sizeof(float));
+		baseIdx += savePix;
+	}
+	communicationStop1 = MPI_Wtime();
+	communicationTime1 = communicationStop1 - communicationStart1;
+	savePix = getIndex(data, colsPerProcessN, 0);
+	size = savePix + 1;
+	communicationStart2 = MPI_Wtime();
+	for (; slave < data -> mpi_procs; slave++) {
+		MPI_Recv(packet, size, MPI_float, slave, 8, MPI_COMM_WORLD, &status);
+		if (packet[0] > computationTime) {
+			computationTime = packet[0];
+		}
+		memcpy(&(pixels2[baseIdx]), &packet[1], savePix * sizeof(float));
+		baseIdx += savePix;
+	}
+	communicationStop2 = MPI_Wtime();
+	communicationTime2 = communicationStop2 - communicationStart2;
+	double communicationTime;
+	communicationTime = communicationTime1 + communicationTime2;
+	for(int i = 0; i < data -> height; ++i) {
+		for (int j = 0; j < data -> width; ++j) {
+			int row = i;
+			int col = j;
+			int baseIdx = getIndex(data, row, col);
+			int pBaseIdx = pGetIndex(data, row, col);
+			pixels[baseIdx] = pixels2[pBaseIdx];
+			pixels[baseIdx + 1] = pixels2[pBaseIdx + 1];
+			pixels[baseIdx + 2] = pixels2[pBaseIdx + 2];
+		}
+	}
+	std::cout << "Total Computation Time: " << computationTime << " seconds" << std::endl;
+   	std::cout << "Total Communication Time: " << communicationTime << " seconds" << std::endl;
+    	double c2cRatio = communicationTime / computationTime;
+    	std::cout << "C-to-C Ratio: " << c2cRatio << std::endl;
+	delete[] packet;
 }
 
 void masterDynamicPartition(ConfigData* data, float *pixels) {
