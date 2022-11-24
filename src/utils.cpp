@@ -14,6 +14,23 @@ int isPerfectSquare(int num) {
 	return 0;
 }
 
+StaticBlock::StaticBlock(const ConfigData *data) {
+	sqrtProcessors = isPerfectSquare(data -> mpi_procs);
+	if (sqrtProcessors == 0) {return;}
+	rowsMax = data -> height;
+	colsMax = data -> width;
+	blockID = data -> mpi_rank;
+	rowsN = rowsMax / sqrtProcessors;
+	rowsE = rowsN + 1;
+	rowsR = rowsMax % sqrtProcessors;
+	rowsRS = rowsMax - rowsR;
+	colsN = colsMax / sqrtProcessors;
+	colsE = colsN + 1;
+	colsR = colsMax % sqrtProcessors;
+	colsRS = colsMax - colsR;
+	updateStaticBlockData(blockID);
+}
+
 DynamicBlock::DynamicBlock(const ConfigData* data) {
 	blockHeight = data -> dynamicBlockHeight;
 	blockWidth = data -> dynamicBlockWidth;
