@@ -267,4 +267,36 @@ void masterStaticBlocks(ConfigData *data, float *pixels) {
 	computationStop = MPI_Wtime();
 	computationTime = computationStop - computationStart;
 	MPI_Barrier(MPI_COMM_WORLD);
+	staticBlock.updateStaticBlockData(data -> mpi_procs - 1);
+	int size = staticBlock.getSize();
+	float *packet = new float[size];
+	int packetIdx, pixelIdx;
+	double communicationStart, communicationStop, communicationTime;
+	communicationStart = MPI_Wtime();
+	for (int slave = 1; slave < data -> mpi_procs; slave++) {
+		staticBlock.updateStaticBlockData(slave);
+		size = staticBlock.getSize();
+
+		MPI_Recv(packet, size, MPI_FLOAT, slave, 8, MPI_COMM_WORLD, &status);
+		if (packet[size - 1] > computationTime) {
+			computationTime = packet[size - 1];
+		}
+		for (int row = 0; row < staticBlock.rowsToCalc; rows++) {
+			for (int col = 0; col < staticBlock.colsToCalc; col++) {
+				pixelIdx = getIndex(data, staticBlock.rowStart + row, staticBlock.colStart + col);
+				packetIdx = staticBlock.getIndex(row, col);
+				pixels[pixelIdx] = packet[packetIdx];
+				pixels[pixelIdx + 1] = packet[packetIdx + 1];
+				pixels[pixelIdx + 2] = packet[packetIdx + 2];
+			}
+		}
+	
+	}
+	communicationStop = MPI_Wtime();
+	communicationTime = communicationStop - communicationStart;
+	std::cout << "Total Computation Time: " << computationTime << " seconds" << std::endl;
+    	std::cout << "Total Communication Time: " << communicationTime << " seconds" << std::endl;
+    	double c2cRatio = communicationTime / computationTime;
+    	std::cout << "C-to-C Ratio: " << c2cRatio << std::endl;
+	delete[] packet;
 }
