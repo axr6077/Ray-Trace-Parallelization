@@ -20,6 +20,7 @@ void masterMain( ConfigData *data );
 //
 //Outputs: None
 int getIndex(const ConfigData* data, int row, int col);
+int pGetIndex(const ConfigData* data, int row, int col);
 void masterSequential(ConfigData *data, float* pixels);
 void staticCyclesHorizontal(ConfigData *data, float* pixels);
 void masterStaticStripsVertical(ConfigData *data, float* pixels);

@@ -1,6 +1,7 @@
 //This file contains the code that the master process will execute.
 
 #include <iostream>
+#include <cstring>
 #include <mpi.h>
 #include "RayTrace.h"
 #include "slave.h"

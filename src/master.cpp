@@ -53,7 +53,7 @@ void masterMain(ConfigData* data)
 	case PART_MODE_STATIC_STRIPS_VERTICAL:
 	    startTime = MPI_Wtime();
 	    masterStaticStripsVertical(data, pixels);
-	    stopTIme = MPI_Wtime();
+	    stopTime = MPI_Wtime();
 	    break;
 	case PART_MODE_STATIC_CYCLES_HORIZONTAL:
 	    startTime = MPI_Wtime();
@@ -242,7 +242,7 @@ void masterStaticStripsVertical(ConfigData* data, float* pixels) {
 	size = savePix + 1;
 	communicationStart2 = MPI_Wtime();
 	for (; slave < data -> mpi_procs; slave++) {
-		MPI_Recv(packet, size, MPI_float, slave, 8, MPI_COMM_WORLD, &status);
+		MPI_Recv(packet, size, MPI_FLOAT, slave, 8, MPI_COMM_WORLD, &status);
 		if (packet[0] > computationTime) {
 			computationTime = packet[0];
 		}
