@@ -3,11 +3,11 @@
  * Partition Modes: 
  * 	STATIC_CYCLICAL_ROW_STRIPS: Status - Completed
  * 	DYNAMIC_BLOCKS: Status - Completed
- * 	STATIC_VERTICAL: Status - Not implemented yet
+ * 	STATIC_VERTICAL: Status - In progress
  *	STATIC_BLOCKS: Status - Completed
  * @author: Jason Lowden
  * @author: Ayush Rout
- * @version: 1.3
+ * @version: 1.4
  * @date: 11/24/2022
  * */
 

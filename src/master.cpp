@@ -3,11 +3,11 @@
  * Partition Modes: 
  * 	STATIC_CYCLICAL_ROW_STRIPS: Status - Completed
  * 	DYNAMIC_BLOCKS: Status - Completed
- * 	STATIC_VERTICAL: Status - Not implemented yet
+ * 	STATIC_VERTICAL: Status - In progress
  *	STATIC_BLOCKS: Status - Completed
  * @author: Ayush Rout
- * @version: 1.7
- * @date: 11/22/2022
+ * @version: 1.8
+ * @date: 11/24/2022
  * */
 
 //This file contains the code that the master process will execute.
@@ -50,6 +50,11 @@ void masterMain(ConfigData* data)
             masterSequential(data, pixels);
             stopTime = MPI_Wtime();
             break;
+	case PART_MODE_STATIC_STRIPS_VERTICAL:
+	    startTime = MPI_Wtime();
+	    masterStaticStripsVertical(data, pixels);
+	    stopTIme = MPI_Wtime();
+	    break;
 	case PART_MODE_STATIC_CYCLES_HORIZONTAL:
 	    startTime = MPI_Wtime();
 	    staticCyclesHorizontal(data, pixels);
@@ -179,6 +184,10 @@ void staticCyclesHorizontal(ConfigData* data, float* pixels) {
     	double c2cRatio = commTime / compTime;
     	std::cout << "C-to-C Ratio: " << c2cRatio << std::endl;
 	delete[] p_pixel;	
+}
+
+void masterStaticStripsVertical(ConfigData* data, float* pixels) {
+	//TODO
 }
 
 void masterDynamicPartition(ConfigData* data, float *pixels) {

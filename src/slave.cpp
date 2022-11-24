@@ -20,6 +20,9 @@ void slaveMain(ConfigData* data)
 	case PART_MODE_STATIC_CYCLES_HORIZONTAL:
 	    staticCyclesHorizontal(data);
 	    break;
+	case PART_MODE_STATIC_STRIPS_VERTICAL:
+	    slaveStaticStripsVertical(data);
+	    break;
 	case PART_MODE_STATIC_BLOCKS:
 	    slaveStaticBlocks(data);
 	    break;
