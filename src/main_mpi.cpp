@@ -4,11 +4,11 @@
  * 	STATIC_CYCLICAL_ROW_STRIPS: Status - Completed
  * 	DYNAMIC_BLOCKS: Status - Completed
  * 	STATIC_VERTICAL: Status - Not implemented yet
- *	STATIC_BLOCKS: Status - Not implemented yet
+ *	STATIC_BLOCKS: Status - In progress
  * @author: Jason Lowden
  * @author: Ayush Rout
- * @version: 1.2
- * @date: 11/22/2022
+ * @version: 1.3
+ * @date: 11/24/2022
  * */
 
 #include <ctime>

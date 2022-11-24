@@ -55,6 +55,11 @@ void masterMain(ConfigData* data)
 	    staticCyclesHorizontal(data, pixels);
 	    stopTime = MPI_Wtime();
 	    break;
+	case PART_MODE_STATIC_BLOCKS:
+	    startTime = MPI_Wtime();
+	    masterStaticBlocks(data, pixels);
+	    stopTime = MPI_Wtime();
+	    break;
 	case PART_MODE_DYNAMIC:
 	    startTime = MPI_Wtime();
 	    masterDynamicPartition(data, pixels);
@@ -242,4 +247,5 @@ void masterDynamicPartition(ConfigData* data, float *pixels) {
     	std::cout << "C-to-C Ratio: " << c2cRatio << std::endl;
 	delete[] packet;
 }
+
 
