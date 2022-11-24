@@ -40,11 +40,11 @@ void StaticBlock::updateStaticBlockData(int blockID) {
 		rowStart = rowsRS * rowsN + (blockRow - rowsRS) * rowsE;
 	}
 	else {
-		rowsToCalc = nowsN;
-		rowStart = blockRow * nowN;
+		rowsToCalc = rowsN;
+		rowStart = blockRow * rowsN;
 	}
-	rowE = rowStart + rowsToCalc;
-	if (blockRow >= colsRS) {
+	rowEnd = rowStart + rowsToCalc;
+	if (blockCol >= colsRS) {
 		colsToCalc = colsE;
 		colStart = colsRS * colsN + (blockCol - colsRS) * colsE;
 	}
@@ -52,7 +52,7 @@ void StaticBlock::updateStaticBlockData(int blockID) {
 		colsToCalc = colsN;
 		colStart = blockCol * colsN;
 	}
-	colsE = colStart + colsToCalc;
+	colEnd = colStart + colsToCalc;
 }
 
 int StaticBlock::getNumOfPixels() {

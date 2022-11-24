@@ -254,8 +254,8 @@ void masterStaticBlocks(ConfigData *data, float *pixels) {
 	computationStart = MPI_Wtime();
 	StaticBlock staticBlock = StaticBlock(data);
 	if (staticBlock.sqrtProcessors == 0) {
-		std::cout << "Error: " << data -> mpi_procs << "is not a perfect square to implement blocks" << std::endl;
-		return NULL;
+		std::cout << "Error: " << data -> mpi_procs << " is not a perfect square to implement blocks" << std::endl;
+		return;
 	}
 	for (int row = staticBlock.rowStart; row < staticBlock.rowEnd; ++row) {
 		for (int col = staticBlock.colStart; col < staticBlock.colEnd; ++col) {
@@ -281,7 +281,7 @@ void masterStaticBlocks(ConfigData *data, float *pixels) {
 		if (packet[size - 1] > computationTime) {
 			computationTime = packet[size - 1];
 		}
-		for (int row = 0; row < staticBlock.rowsToCalc; rows++) {
+		for (int row = 0; row < staticBlock.rowsToCalc; row++) {
 			for (int col = 0; col < staticBlock.colsToCalc; col++) {
 				pixelIdx = getIndex(data, staticBlock.rowStart + row, staticBlock.colStart + col);
 				packetIdx = staticBlock.getIndex(row, col);
