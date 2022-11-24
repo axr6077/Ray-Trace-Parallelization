@@ -4,7 +4,7 @@
  * 	STATIC_CYCLICAL_ROW_STRIPS: Status - Completed
  * 	DYNAMIC_BLOCKS: Status - Completed
  * 	STATIC_VERTICAL: Status - Not implemented yet
- *	STATIC_BLOCKS: Status - In progress
+ *	STATIC_BLOCKS: Status - Completed
  * @author: Jason Lowden
  * @author: Ayush Rout
  * @version: 1.3
