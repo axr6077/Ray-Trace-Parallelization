@@ -31,6 +31,42 @@ StaticBlock::StaticBlock(const ConfigData *data) {
 	updateStaticBlockData(blockID);
 }
 
+void StaticBlock::updateStaticBlockData(int blockID) {
+	this -> blockID = blockID;
+	blockRow = blockID / sqrtProcessors;
+	blockCol = blockID % sqrtProcessors;
+	if (blockRow >= rowsRS) {
+		rowsToCalc = rowsE;
+		rowStart = rowsRS * rowsN + (blockRow - rowsRS) * rowsE;
+	}
+	else {
+		rowsToCalc = nowsN;
+		rowStart = blockRow * nowN;
+	}
+	rowE = rowStart + rowsToCalc;
+	if (blockRow >= colsRS) {
+		colsToCalc = colsE;
+		colStart = colsRS * colsN + (blockCol - colsRS) * colsE;
+	}
+	else {
+		colsToCalc = colsN;
+		colStart = blockCol * colsN;
+	}
+	colsE = colStart + colsToCalc;
+}
+
+int StaticBlock::getNumOfPixels() {
+	return 3 * (rowsToCalc + 1) * colsToCalc;
+}
+
+int StaticBlock::getSize(){
+	return getNumOfPixels() + 1;
+}
+
+int StaticBlock::getIndex(int row, int col) {
+	return 3 * (row * colsToCalc + col);
+}
+
 DynamicBlock::DynamicBlock(const ConfigData* data) {
 	blockHeight = data -> dynamicBlockHeight;
 	blockWidth = data -> dynamicBlockWidth;
