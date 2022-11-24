@@ -66,6 +66,44 @@ void staticCyclesHorizontal(ConfigData* data) {
 	delete[] pixels;
 }
 
+void slaveStaticStripsVertical(ConfigData* data) {
+	double computationStart, computationStop, computationTime;
+	computationStart = MPI_Wtime();
+	int rowsMax = data -> height;
+	int colsMax = data -> width;
+	int colsPerProcessN = colsMax / data -> mpi_procs;
+	int colsPerProcessE = colsPerProcessN + 1;
+	int colsR = colsMax % data -> mpi_procs;
+	int colsToCalc, colStart;
+	if (data -> mpi_rank < colsR) {
+		colsToCalc = colsPerProcessE;
+		colStart = colsPerProcessE * data -> mpi_rank;
+	}
+	else {
+		colsToCalc = colsPerProcessN;
+		colStart = (colsPerProcessE * colsR) + ((data -> mpi_rank - colsR) * colsPerProcessN);
+	}
+	float *pixels = new float[pGetIndex(data, 0, colsToCalc + 1)];
+
+	for (int row = 0; row < rowsMax; ++row) {
+		for (int col = 0; col < colsToCalc; ++col) {
+			int pBaseIdx = pGetIndex(data, row, col);
+			shadePixel(&(pixels[pBaseIdx]), row, col + colStart, data);
+		}
+	}
+	computationStop = MPI_Wtime();
+	computationTime = computationStop - computationStart;
+	int savePix = pGetIndex(data, 0, colsToCalc);
+	int size = savePix + 1;
+	float *packet = new float[savePix + 1];
+	packet[0] = computationTime;
+	memcpy(&packet[1], pixels, savePix * sizeof(float));
+	MPI_Barrier(MPI_COMM_WORLD);
+	MPI_Send(packet, size, MPI_FLOAT, 0, 8, MPI_COMM_WORLD);
+	delete[] packet;
+	delete[] pixels;
+}
+	
 void slaveDynamicPartition(ConfigData* data) {
 	MPI_Status status;
 	int blockID = data -> mpi_rank - 1;
