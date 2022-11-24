@@ -23,4 +23,5 @@ int getIndex(const ConfigData* data, int row, int col);
 void masterSequential(ConfigData *data, float* pixels);
 void staticCyclesHorizontal(ConfigData *data, float* pixels);
 void masterDynamicPartition(ConfigData *data, float* pixels);
+void masterStaticBlocks(ConfigData *data, float *pixels);
 #endif
