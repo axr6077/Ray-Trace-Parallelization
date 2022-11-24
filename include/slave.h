@@ -5,5 +5,6 @@
 
 void slaveMain( ConfigData *data );
 void staticCyclesHorizontal(ConfigData *data);
-void slaveDynamicPartition(ConfigData* data);
+void slaveStaticBlocks(ConfigData *data);
+void slaveDynamicPartition(ConfigData *data);
 #endif
