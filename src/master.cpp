@@ -248,4 +248,23 @@ void masterDynamicPartition(ConfigData* data, float *pixels) {
 	delete[] packet;
 }
 
+void masterStaticBlocks(ConfigData *data, float *pixels) {
+	MPI_Status status;
+	double computationStart, computationStop, computationTime;
+	computationStart = MPI_Wtime();
+	StaticBlock staticBlock = StaticBlock(data);
+	if (staticBlock.sqrtProcessors == 0) {
+		std::cout << "Error: " << data -> mpi_procs << "is not a perfect square to implement blocks" << std::endl;
+		return NULL;
+	}
+	for (int row = staticBlock.rowStart; row < staticBlock.rowEnd; ++row) {
+		for (int col = staticBlock.colStart; col < staticBlock.colEnd; ++col) {
+			int baseIdx = getIndex(data, row, col);
 
+			shadePixel(&(pixels[baseIdx]), row, col, data);
+		}
+	}
+	computationStop = MPI_Wtime();
+	computationTime = computationStop - computationStart;
+	MPI_Barrier(MPI_COMM_WORLD);
+}
