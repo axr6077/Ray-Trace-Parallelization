@@ -1,14 +1,6 @@
 #!/bin/bash
 #
 
-# This is an example bash script that is used to submit a job
-# to the cluster.
-#
-# Typcially, the # represents a comment.However, #SBATCH is
-# interpreted by SLURM to give an option from above. As you 
-# will see in the following lines, it is very useful to provide
-# that information here, rather than the command line.
-
 # Name of the job - You MUST use a unique name for the job
 #SBATCH -J rt_seq
 
@@ -32,9 +24,6 @@
 #SBATCH -p kgcoe-mps -n 1 -N 1
 #SBATCH --mem-per-cpu=2000M
 
-#
-# Your job script goes below this line.
-#
 
 # Place your mpirun command here
 # Notice that you have to provide the number of processes that
