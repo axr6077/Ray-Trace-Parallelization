@@ -3,12 +3,12 @@
  * Partition Modes: 
  * 	STATIC_CYCLICAL_ROW_STRIPS: Status - Completed
  * 	DYNAMIC_BLOCKS: Status - Completed
- * 	STATIC_VERTICAL: Status - In progress
+ * 	STATIC_VERTICAL: Status - Completed
  *	STATIC_BLOCKS: Status - Completed
  * @author: Jason Lowden
  * @author: Ayush Rout
- * @version: 1.4
- * @date: 11/24/2022
+ * @version: 1.9
+ * @date: 12/2/2022
  * */
 
 #include <ctime>
@@ -68,7 +68,7 @@ int main( int argc, char* argv[] )
         std::cout << "Partitioning scheme: " << data.partitioningMode << std::endl;
         std::cout << "Number of Processes: " << data.mpi_procs << std::endl;
         //Print out the other properties as well
-        std::cout << "Dynamic block size: " << data.dynamicBlockWidth << " x " << data.dynamicBlockHeight << std::endl;
+        std::cout << "Dynamic block size: " << data.dynamicBlockHeight << " x " << data.dynamicBlockWidth << std::endl;
         std::cout << "Cycle Size: " << data.cycleSize << std::endl; 
 
         //Start the main processing for the ray tracer.
